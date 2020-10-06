@@ -1,0 +1,15 @@
+{
+  "name": "Contentful Gatsby Portfolio Starter",
+  "description": "A Contentful Gatsby Portfolio Starter",
+  "keywords": ["contentful", "gatsby", "static", "ssg"],
+  "repository": "https://github.com/matteuc/gatsby-contentful-portfolio",
+  "success_url": "/",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-static"
+    }
+  ]
+}
