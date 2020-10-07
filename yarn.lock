@@ -6948,6 +6948,11 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "^3.0.0"
 
+fontsource-nunito@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/fontsource-nunito/-/fontsource-nunito-3.0.9.tgz#6a803b3beb572ab88223ccc62d4ab112d2741eea"
+  integrity sha512-sLlMrZW9ldkl6bhWIZlZBwCQX1ZEC0y3lhoUOZefW4n4RTbLqZceRZBBBEgTvdxlbOMXMnzrm4tm/+moy7LxiA==
+
 for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"

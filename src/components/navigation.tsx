@@ -6,10 +6,16 @@ const Navigation: React.FC = () => (
   <nav role="navigation">
     <ul className={styles.navigation}>
       <li className={styles.navigationItem}>
-        <Link to="/">Home</Link>
+        <Link to="/">Work</Link>
       </li>
       <li className={styles.navigationItem}>
-        <Link to="/projects/">Projects</Link>
+        <Link to="/about">About</Link>
+      </li>
+      <li className={styles.navigationItem}>
+        <Link to="/contact">Contact</Link>
+      </li>
+      <li className={styles.navigationItem}>
+        <Link to="/resume">Resume</Link>
       </li>
     </ul>
   </nav>

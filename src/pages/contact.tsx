@@ -5,18 +5,18 @@ import { Helmet } from 'react-helmet'
 import { Grid } from '@material-ui/core'
 import Layout from '../components/layout'
 import ProjectPreview from '../components/project-preview'
-import { HomeQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
+import { ContactIndexQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 import Statement from '../components/statement'
 
-const RootIndex: React.FC = (props) => {
-  const site: HomeQueryQuery['site'] = get(props, 'data.site')
-  const projects: HomeQueryQuery['allContentfulProject']['edges'] = get(
+const ContactIndex: React.FC = (props) => {
+  const site: ContactIndexQueryQuery['site'] = get(props, 'data.site')
+  const projects: ContactIndexQueryQuery['allContentfulProject']['edges'] = get(
     props,
     'data.allContentfulProject.edges'
   )
-  const layout: HomeQueryQuery['contentfulLandingLayout'] = get(
+  const layout: ContactIndexQueryQuery['contentfulContactLayout'] = get(
     props,
-    'data.contentfulLandingLayout'
+    'data.contentfulContactLayout'
   )
 
   return (
@@ -38,16 +38,16 @@ const RootIndex: React.FC = (props) => {
   )
 }
 
-export default RootIndex
+export default ContactIndex
 
 export const pageQuery = graphql`
-  query HomeQuery {
+  query ContactIndexQuery {
     site {
       siteMetadata {
         title
       }
     }
-    contentfulLandingLayout(platform: { eq: "main" }) {
+    contentfulContactLayout(platform: { eq: "main" }) {
       statement
     }
     allContentfulProject(filter: { node_locale: { eq: "en-US" } }) {
@@ -63,29 +63,6 @@ export const pageQuery = graphql`
           description {
             childMarkdownRemark {
               html
-            }
-          }
-        }
-      }
-    }
-    allContentfulPerson(
-      filter: { contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" } }
-    ) {
-      edges {
-        node {
-          name
-          shortBio {
-            shortBio
-          }
-          title
-          heroImage: image {
-            fluid(
-              maxWidth: 1180
-              maxHeight: 480
-              resizingBehavior: PAD
-              background: "rgb:000000"
-            ) {
-              ...GatsbyContentfulFluid_tracedSVG
             }
           }
         }
