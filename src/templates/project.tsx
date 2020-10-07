@@ -4,11 +4,11 @@ import { Helmet } from 'react-helmet'
 import get from 'lodash/get'
 import Img, { FluidObject } from 'gatsby-image'
 import Layout from '../components/layout'
-import { ContentfulBlogPost, SiteSiteMetadata } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
+import { ContentfulProject, SiteSiteMetadata } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 import heroStyles from '../components/hero.module.css'
 
-const BlogPostTemplate: React.FC = (props) => {
-  const post: ContentfulBlogPost = get(props, 'data.contentfulBlogPost')
+const ProjectTemplate: React.FC = (props) => {
+  const post: ContentfulProject = get(props, 'data.contentfulProject')
   const siteTitle: SiteSiteMetadata = get(props, 'data.site.siteMetadata.title')
 
   return (
@@ -16,11 +16,11 @@ const BlogPostTemplate: React.FC = (props) => {
       <div style={{ background: '#fff' }}>
         <Helmet title={`${post.title} | ${siteTitle}`} />
         <div className={heroStyles.hero}>
-          {post.heroImage?.fluid && post?.title ? (
+          {post.preview?.fluid && post?.title ? (
             <Img
               className={heroStyles.heroImage}
               alt={post.title}
-              fluid={post.heroImage.fluid as FluidObject}
+              fluid={post.preview.fluid as FluidObject}
             />
           ) : (
             ''
@@ -28,16 +28,9 @@ const BlogPostTemplate: React.FC = (props) => {
         </div>
         <div className="wrapper">
           <h1 className="section-headline">{post.title}</h1>
-          <p
-            style={{
-              display: 'block',
-            }}
-          >
-            {post.publishDate}
-          </p>
           <div
             dangerouslySetInnerHTML={{
-              __html: post?.body?.childMarkdownRemark?.html || '',
+              __html: post?.description?.childMarkdownRemark?.html || '',
             }}
           />
         </div>
@@ -46,24 +39,23 @@ const BlogPostTemplate: React.FC = (props) => {
   )
 }
 
-export default BlogPostTemplate
+export default ProjectTemplate
 
 export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
+  query ProjectBySlug($slug: String!) {
     site {
       siteMetadata {
         title
       }
     }
-    contentfulBlogPost(slug: { eq: $slug }) {
+    contentfulProject(slug: { eq: $slug }) {
       title
-      publishDate(formatString: "MMMM Do, YYYY")
-      heroImage {
+      preview {
         fluid(maxWidth: 1180, background: "rgb:000000") {
           ...GatsbyContentfulFluid_tracedSVG
         }
       }
-      body {
+      description {
         childMarkdownRemark {
           html
         }

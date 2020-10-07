@@ -4,14 +4,14 @@ import get from 'lodash/get'
 import { Helmet } from 'react-helmet'
 import Hero from '../components/hero'
 import Layout from '../components/layout'
-import ArticlePreview from '../components/article-preview'
+import ProjectPreview from '../components/project-preview'
 import { HomeQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 
 const RootIndex: React.FC = (props) => {
   const site: HomeQueryQuery['site'] = get(props, 'data.site')
-  const posts: HomeQueryQuery['allContentfulBlogPost']['edges'] = get(
+  const posts: HomeQueryQuery['allContentfulProject']['edges'] = get(
     props,
-    'data.allContentfulBlogPost.edges'
+    'data.allContentfulProject.edges'
   )
   const [author]: HomeQueryQuery['allContentfulPerson']['edges'] = get(
     props,
@@ -23,12 +23,12 @@ const RootIndex: React.FC = (props) => {
         <Helmet title={site?.siteMetadata?.title as string} />
         <Hero data={author.node} />
         <div className="wrapper">
-          <h2 className="section-headline">Recent articles</h2>
-          <ul className="article-list">
+          <h2 className="section-headline">Recent projects</h2>
+          <ul className="project-list">
             {posts.map(({ node }) => {
               return (
                 <li key={node.slug}>
-                  <ArticlePreview article={node} />
+                  <ProjectPreview project={node} />
                 </li>
               )
             })}
@@ -48,14 +48,15 @@ export const pageQuery = graphql`
         title
       }
     }
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+    allContentfulProject(
+      sort: { fields: [title], order: DESC }
+      filter: { node_locale: { eq: "en-US" } }
+    ) {
       edges {
         node {
           title
           slug
-          publishDate(formatString: "MMMM Do, YYYY")
-          tags
-          heroImage {
+          preview {
             fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
               ...GatsbyContentfulFluid_tracedSVG
             }
