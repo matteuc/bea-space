@@ -12,3 +12,11 @@
   border: 1px solid #A0A0A0;
   margin-right: .5em;
 }
+
+.projectPreview {
+  position: "absolute";
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

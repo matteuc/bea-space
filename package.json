@@ -7,6 +7,9 @@
     "url": "https://github.com/matteuc/gatsby-contentful-portfolio/issues"
   },
   "dependencies": {
+    "@material-ui/core": "latest",
+    "@material-ui/styles": "latest",
+    "gatsby-plugin-material-ui": "latest",
     "@types/react": "^16.9.35",
     "@types/react-helmet": "^6.0.0",
     "gatsby": "^2.20.25",
