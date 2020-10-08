@@ -47,7 +47,7 @@ const ContactIndex: React.FC = (props) => {
         }`}
       />
       <Statement text={layout?.statement} />
-      <div className="wrapper">
+      <Box mt={2}>
         <Box pt={6} pb={6}>
           <Grid container justify="center">
             <Grid item xs={12} className={classes.textSection}>
@@ -67,7 +67,7 @@ const ContactIndex: React.FC = (props) => {
             </Grid>
           </Grid>
         </Box>
-      </div>
+      </Box>
     </Layout>
   )
 }

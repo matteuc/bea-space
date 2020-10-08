@@ -2,7 +2,7 @@ import * as React from 'react'
 import { graphql } from 'gatsby'
 import get from 'lodash/get'
 import { Helmet } from 'react-helmet'
-import { Grid } from '@material-ui/core'
+import { Grid, Box } from '@material-ui/core'
 import Layout from '../components/layout'
 import ProjectPreview from '../components/project-preview'
 import { HomeQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
@@ -28,7 +28,7 @@ const RootIndex: React.FC = (props) => {
         title={typeof siteTitle === 'string' ? siteTitle : 'My Portfolio'}
       />
       <Statement text={layout?.statement} />
-      <div className="wrapper">
+      <Box mt={2}>
         <Grid container>
           {projects.map(({ node }) => {
             return (
@@ -38,7 +38,7 @@ const RootIndex: React.FC = (props) => {
             )
           })}
         </Grid>
-      </div>
+      </Box>
     </Layout>
   )
 }

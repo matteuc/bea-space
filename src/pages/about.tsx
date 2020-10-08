@@ -32,7 +32,7 @@ const AboutIndex: React.FC = (props) => {
     <Layout>
       <Helmet title={`About — ${siteTitle}`} />
       <Statement text={layout?.statement} />
-      <div className="wrapper">
+      <Box mt={2}>
         <Grid container justify="center">
           <Grid item xs={12} sm={8} md={5}>
             <Box p={2}>
@@ -48,7 +48,7 @@ const AboutIndex: React.FC = (props) => {
             </Box>
           </Grid>
         </Grid>
-      </div>
+      </Box>
     </Layout>
   )
 }
