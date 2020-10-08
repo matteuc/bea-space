@@ -7,6 +7,9 @@
     "url": "https://github.com/matteuc/gatsby-contentful-portfolio/issues"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "@material-ui/core": "latest",
     "@material-ui/styles": "latest",
     "@types/react": "^16.9.35",
@@ -14,6 +17,7 @@
     "fontsource-nunito": "^3.0.9",
     "gatsby": "^2.20.25",
     "gatsby-image": "^2.3.4",
+    "gatsby-plugin-fontawesome-css": "^1.0.0",
     "gatsby-plugin-graphql-codegen": "^2.7.1",
     "gatsby-plugin-material-ui": "latest",
     "gatsby-plugin-react-helmet": "^3.2.4",

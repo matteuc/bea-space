@@ -34,6 +34,7 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp',
     `gatsby-plugin-typescript`,
+    'gatsby-plugin-fontawesome-css',
     {
       resolve: 'gatsby-source-contentful',
       options: contentfulConfig,

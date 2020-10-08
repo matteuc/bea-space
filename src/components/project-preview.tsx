@@ -4,10 +4,10 @@ import Img, { FluidObject } from 'gatsby-image'
 
 import { Box, Paper } from '@material-ui/core'
 import styles from './project-preview.module.css'
-import { ProjectIndexQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
+import { HomeQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 
 type ProjectPreviewProps = {
-  project: ProjectIndexQueryQuery['allContentfulProject']['edges'][0]['node']
+  project: HomeQueryQuery['allContentfulProject']['edges'][0]['node']
 }
 
 const ProjectPreview: React.FC<ProjectPreviewProps> = ({ project }) => (

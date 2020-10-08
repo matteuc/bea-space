@@ -9,7 +9,10 @@ import { HomeQueryQuery } from '../../types/graphql-types' // eslint-disable-lin
 import Statement from '../components/statement'
 
 const RootIndex: React.FC = (props) => {
-  const site: HomeQueryQuery['site'] = get(props, 'data.site')
+  const siteTitle: HomeQueryQuery['contentfulSiteMetadata'] = get(
+    props,
+    'data.contentfulSiteMetadata.headerPageTitle'
+  )
   const projects: HomeQueryQuery['allContentfulProject']['edges'] = get(
     props,
     'data.allContentfulProject.edges'
@@ -21,7 +24,9 @@ const RootIndex: React.FC = (props) => {
 
   return (
     <Layout>
-      <Helmet title={site?.siteMetadata?.title as string} />
+      <Helmet
+        title={typeof siteTitle === 'string' ? siteTitle : 'My Portfolio'}
+      />
       <Statement text={layout?.statement} />
       <div className="wrapper">
         <Grid container>
@@ -42,10 +47,8 @@ export default RootIndex
 
 export const pageQuery = graphql`
   query HomeQuery {
-    site {
-      siteMetadata {
-        title
-      }
+    contentfulSiteMetadata(platform: { eq: "main" }) {
+      headerPageTitle
     }
     contentfulLandingLayout(platform: { eq: "main" }) {
       statement

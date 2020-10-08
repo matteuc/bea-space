@@ -27,7 +27,7 @@ const Statement: React.FC<StatementProps> = ({ text = 'Statement' }) => {
         color="primary"
         align="center"
         className={classes.statement}
-        variant="h4"
+        variant="h3"
       >
         {text}
       </Typography>

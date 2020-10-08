@@ -2,36 +2,51 @@ import * as React from 'react'
 import { graphql } from 'gatsby'
 import get from 'lodash/get'
 import { Helmet } from 'react-helmet'
-import { Grid } from '@material-ui/core'
+import { Box, Grid, makeStyles } from '@material-ui/core'
+import Img, { FluidObject } from 'gatsby-image'
 import Layout from '../components/layout'
-import ProjectPreview from '../components/project-preview'
 import { AboutIndexQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 import Statement from '../components/statement'
+import RawHtml from '../components/rawHtml'
+
+const useStyles = makeStyles((theme) => ({
+  biography: {
+    '&:not(a)': {
+      color: theme.palette.grey[500],
+    },
+  },
+}))
 
 const AboutIndex: React.FC = (props) => {
-  const site: AboutIndexQueryQuery['site'] = get(props, 'data.site')
-  const projects: AboutIndexQueryQuery['allContentfulProject']['edges'] = get(
+  const siteTitle: AboutIndexQueryQuery['contentfulSiteMetadata'] = get(
     props,
-    'data.allContentfulProject.edges'
+    'data.contentfulSiteMetadata.headerPageTitle'
   )
   const layout: AboutIndexQueryQuery['contentfulAboutLayout'] = get(
     props,
     'data.contentfulAboutLayout'
   )
 
+  const classes = useStyles()
   return (
     <Layout>
-      <Helmet title={site?.siteMetadata?.title as string} />
+      <Helmet title={`About — ${siteTitle}`} />
       <Statement text={layout?.statement} />
       <div className="wrapper">
-        <Grid container>
-          {projects.map(({ node }) => {
-            return (
-              <Grid item xs={12} sm={6} key={node.slug}>
-                <ProjectPreview project={node} />
-              </Grid>
-            )
-          })}
+        <Grid container justify="center">
+          <Grid item xs={12} sm={8} md={5}>
+            <Box p={2}>
+              <Img alt="" fluid={layout?.profilePhoto?.fluid as FluidObject} />
+            </Box>
+          </Grid>
+
+          <Grid item md={7}>
+            <Box p={2} className={classes.biography}>
+              <RawHtml
+                html={layout?.biography?.childMarkdownRemark?.html || ''}
+              />
+            </Box>
+          </Grid>
         </Grid>
       </div>
     </Layout>
@@ -42,29 +57,19 @@ export default AboutIndex
 
 export const pageQuery = graphql`
   query AboutIndexQuery {
-    site {
-      siteMetadata {
-        title
-      }
+    contentfulSiteMetadata(platform: { eq: "main" }) {
+      headerPageTitle
     }
     contentfulAboutLayout(platform: { eq: "main" }) {
       statement
-    }
-    allContentfulProject(filter: { node_locale: { eq: "en-US" } }) {
-      edges {
-        node {
-          title
-          slug
-          preview {
-            fluid(maxWidth: 350, maxHeight: 350, resizingBehavior: SCALE) {
-              ...GatsbyContentfulFluid_tracedSVG
-            }
-          }
-          description {
-            childMarkdownRemark {
-              html
-            }
-          }
+      profilePhoto {
+        fluid(maxWidth: 350, resizingBehavior: SCALE) {
+          ...GatsbyContentfulFluid_tracedSVG
+        }
+      }
+      biography {
+        childMarkdownRemark {
+          html
         }
       }
     }
