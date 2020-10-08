@@ -8,7 +8,7 @@ import { faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import Layout from '../components/layout'
 import { ContactIndexQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 import Statement from '../components/statement'
-import RawHtml from '../components/rawHtml'
+import RawHtml from '../components/raw-html'
 
 const useStyles = makeStyles((theme) => ({
   textSection: {

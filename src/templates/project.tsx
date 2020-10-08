@@ -8,8 +8,10 @@ import Layout from '../components/layout'
 import {
   ProjectBySlugQuery,
   ContentfulProjectPhoto,
+  ContentfulProjectHighlight,
 } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
-import RawHtml from '../components/rawHtml'
+import RawHtml from '../components/raw-html'
+import ProjectLinks from '../components/project-links'
 
 const useStyles = makeStyles({
   title: {
@@ -29,6 +31,14 @@ const useStyles = makeStyles({
     margin: 'auto',
     fontSize: '1rem',
   },
+  highlight: {
+    margin: '0.5rem 0',
+    display: 'flex',
+    textAlign: 'center',
+  },
+  highlightContainer: {
+    margin: 'auto',
+  },
 })
 
 const ProjectTemplate: React.FC = (props) => {
@@ -43,7 +53,12 @@ const ProjectTemplate: React.FC = (props) => {
   const classes = useStyles()
 
   const generateProjectPhoto = (photo: ContentfulProjectPhoto) => (
-    <Grid item xs={12} sm={photo.fullWidth ? 12 : 6}>
+    <Grid
+      item
+      xs={12}
+      sm={photo.fullWidth ? 10 : 6}
+      md={photo.fullWidth ? 7 : 5}
+    >
       <Img alt="" fluid={photo.image?.fluid as FluidObject} />
       <Box className={classes.caption}>
         {photo.caption ? (
@@ -53,6 +68,16 @@ const ProjectTemplate: React.FC = (props) => {
         ) : (
           ''
         )}
+      </Box>
+    </Grid>
+  )
+
+  const generateProjectHighlight = (highlight: ContentfulProjectHighlight) => (
+    <Grid item xs={12}>
+      <Box className={classes.highlight}>
+        <Box className={classes.highlightContainer}>
+          <RawHtml html={highlight.text.childContentfulRichText.html} />
+        </Box>
       </Box>
     </Grid>
   )
@@ -79,14 +104,16 @@ const ProjectTemplate: React.FC = (props) => {
               switch (content.__typename) {
                 case 'ContentfulProjectPhoto':
                   return generateProjectPhoto(content)
-                // case 'ContentfulProjectHighlight':
-                //   return generateProjectHighlight(content)
-                //   break
+                case 'ContentfulProjectHighlight':
+                  return generateProjectHighlight(content)
                 default:
                   return <></>
               }
             })}
           </Grid>
+          <Box mt={5} mb={5}>
+            <ProjectLinks />
+          </Box>
         </Container>
       </Box>
     </Layout>

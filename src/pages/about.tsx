@@ -7,7 +7,7 @@ import Img, { FluidObject } from 'gatsby-image'
 import Layout from '../components/layout'
 import { AboutIndexQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 import Statement from '../components/statement'
-import RawHtml from '../components/rawHtml'
+import RawHtml from '../components/raw-html'
 
 const useStyles = makeStyles((theme) => ({
   biography: {

@@ -24,16 +24,19 @@ const useStyles = makeStyles({
 const Template: React.FC = ({ children }) => {
   const classes = useStyles()
   return (
-    <ThemeProvider theme={theme}>
-      <Container disableGutters className={classes.root} maxWidth={false}>
-        <Container disableGutters className={classes.root} maxWidth="md">
-          <Box p={5}>
-            <Navigation />
-            {children}
-          </Box>
+    <>
+      <base target="_blank" />
+      <ThemeProvider theme={theme}>
+        <Container disableGutters className={classes.root} maxWidth={false}>
+          <Container disableGutters className={classes.root} maxWidth="md">
+            <Box p={5}>
+              <Navigation />
+              {children}
+            </Box>
+          </Container>
         </Container>
-      </Container>
-    </ThemeProvider>
+      </ThemeProvider>
+    </>
   )
 }
 
