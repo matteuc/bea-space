@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/styles'
 import 'fontsource-nunito'
 import Navigation from './navigation'
 import theme from '../theme'
-import './base.css'
 
 const useStyles = makeStyles({
   root: {
