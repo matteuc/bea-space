@@ -14,14 +14,13 @@ const RootIndex: React.FC<PageProps> = ({ data, location }) => {
     data,
     'contentfulSiteMetadata.headerPageTitle'
   )
-  const projects: HomeQueryQuery['allContentfulProject']['edges'] = get(
-    data,
-    'allContentfulProject.edges'
-  )
+
   const layout: HomeQueryQuery['contentfulLandingLayout'] = get(
     data,
     'contentfulLandingLayout'
   )
+
+  const projects = layout?.projects
 
   return (
     <LocationContext.Provider value={{ path: location.pathname }}>
@@ -32,10 +31,10 @@ const RootIndex: React.FC<PageProps> = ({ data, location }) => {
         <Statement text={layout?.statement} />
         <Box mt={2}>
           <Grid container>
-            {projects.map(({ node }) => {
+            {projects?.map((project) => {
               return (
-                <Grid item xs={12} sm={6} key={node.slug}>
-                  <ProjectPreview project={node} />
+                <Grid item xs={12} sm={6} key={project.slug}>
+                  <ProjectPreview project={project} />
                 </Grid>
               )
             })}
@@ -55,10 +54,8 @@ export const pageQuery = graphql`
     }
     contentfulLandingLayout(platform: { eq: "main" }) {
       statement
-    }
-    allContentfulProject(filter: { node_locale: { eq: "en-US" } }) {
-      edges {
-        node {
+      projects {
+        ... on ContentfulProject {
           title
           slug
           preview {
