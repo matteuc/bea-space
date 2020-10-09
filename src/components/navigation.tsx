@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1em',
   },
   activeLink: {
-    color: `${theme.palette.text.secondary} !important`,
+    color: `${theme.palette.secondary.main} !important`,
   },
   linkSection: {
     display: 'flex',
@@ -40,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     display: 'flex',
     alignItems: 'center',
+    '& a:hover': {
+      textDecoration: 'none !important',
+    },
+    '& a': {
+      color: `${theme.palette.grey[900]} !important`,
+    },
   },
   navigationMobile: {
     display: 'flex',
@@ -49,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     display: 'flex',
     alignItems: 'center',
+    '& a:hover': {
+      textDecoration: 'none !important',
+    },
+    '& a': {
+      color: `${theme.palette.grey[900]} !important`,
+    },
   },
   menuToggle: {
     right: '0',
@@ -60,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     backgroundColor: theme.palette.background.default,
-    zIndex: 0,
+    zIndex: -1,
     opacity: 0,
     display: 'flex',
     transition: `opacity ${theme.transitions.duration.enteringScreen}ms`,
@@ -81,6 +93,10 @@ type SitePage = {
 
 const sitePages: Array<SitePage> = [
   {
+    label: 'Resume',
+    route: '/resume',
+  },
+  {
     label: 'Work',
     route: '/',
   },
@@ -91,10 +107,6 @@ const sitePages: Array<SitePage> = [
   {
     label: 'Contact',
     route: '/contact',
-  },
-  {
-    label: 'Resume',
-    route: '/resume',
   },
 ]
 
@@ -178,7 +190,9 @@ const Navigation: React.FC = () => {
                       .map((sitePage) => generateNavLink(sitePage))}
                   </span>
                   <h3 className={classes.siteTitle}>
-                    {data.contentfulSiteMetadata.headerTitle}
+                    <Link to="/">
+                      {data.contentfulSiteMetadata.headerTitle}
+                    </Link>
                   </h3>
                   <span className={classes.linkSection}>
                     {sitePages
@@ -192,8 +206,11 @@ const Navigation: React.FC = () => {
               <nav role="navigation">
                 <ul className={classes.navigationMobile}>
                   <h3 className={classes.siteTitleMobile}>
-                    {data.contentfulSiteMetadata.headerTitle}
+                    <Link to="/">
+                      {data.contentfulSiteMetadata.headerTitle}
+                    </Link>
                   </h3>
+
                   <span className={classes.menuToggle}>
                     <MenuToggle />
                   </span>

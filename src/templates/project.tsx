@@ -52,8 +52,12 @@ const ProjectTemplate: React.FC = (props) => {
   )
   const classes = useStyles()
 
-  const generateProjectPhoto = (photo: ContentfulProjectPhoto) => (
+  const generateProjectPhoto = (
+    photo: ContentfulProjectPhoto,
+    index: number
+  ) => (
     <Grid
+      key={`project-photo-${index}`}
       item
       xs={12}
       sm={photo.fullWidth ? 10 : 6}
@@ -72,8 +76,11 @@ const ProjectTemplate: React.FC = (props) => {
     </Grid>
   )
 
-  const generateProjectHighlight = (highlight: ContentfulProjectHighlight) => (
-    <Grid item xs={12}>
+  const generateProjectHighlight = (
+    highlight: ContentfulProjectHighlight,
+    index: number
+  ) => (
+    <Grid key={`project-photo-${index}`} item xs={12}>
       <Box className={classes.highlight}>
         <Box className={classes.highlightContainer}>
           <RawHtml html={highlight.text.childContentfulRichText.html} />
@@ -100,12 +107,12 @@ const ProjectTemplate: React.FC = (props) => {
                 />
               </Box>
             </Grid>
-            {project?.projectContent?.map((content) => {
+            {project?.projectContent?.map((content, idx) => {
               switch (content.__typename) {
                 case 'ContentfulProjectPhoto':
-                  return generateProjectPhoto(content)
+                  return generateProjectPhoto(content, idx)
                 case 'ContentfulProjectHighlight':
-                  return generateProjectHighlight(content)
+                  return generateProjectHighlight(content, idx)
                 default:
                   return <></>
               }

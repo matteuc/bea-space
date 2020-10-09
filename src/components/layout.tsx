@@ -19,6 +19,12 @@ const useStyles = makeStyles({
       },
     },
   },
+  main: {
+    padding: 40,
+    [theme.breakpoints.down('xs')]: {
+      padding: 20,
+    },
+  },
 })
 
 const Template: React.FC = ({ children }) => {
@@ -29,7 +35,7 @@ const Template: React.FC = ({ children }) => {
       <ThemeProvider theme={theme}>
         <Container disableGutters className={classes.root} maxWidth={false}>
           <Container disableGutters className={classes.root} maxWidth="md">
-            <Box p={5}>
+            <Box className={classes.main}>
               <Navigation />
               {children}
             </Box>

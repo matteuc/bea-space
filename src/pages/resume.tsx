@@ -57,7 +57,7 @@ const ResumeIndex: React.FC = (props) => {
         }`}
       />
       <Statement text={layout?.statement} />
-      <Box mt={2}>
+      <Box mt={5}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             {layout?.resume?.file?.url ? (
