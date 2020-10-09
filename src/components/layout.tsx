@@ -46,7 +46,7 @@ const Template: React.FC = ({ children }) => {
               headerTitle
               appIcon {
                 fixed(width: 100, height: 100) {
-                  ...GatsbyContentfulFixed_tracedSVG
+                  ...GatsbyContentfulFixed
                 }
               }
             }

@@ -150,7 +150,7 @@ export const pageQuery = graphql`
           name
           image {
             fluid(maxWidth: 1180, background: "rgb:000000") {
-              ...GatsbyContentfulFluid_tracedSVG
+              ...GatsbyContentfulFluid
             }
           }
           fullWidth

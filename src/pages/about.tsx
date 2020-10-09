@@ -68,7 +68,7 @@ export const pageQuery = graphql`
       profilePhoto {
         title
         fluid(maxWidth: 350, resizingBehavior: SCALE) {
-          ...GatsbyContentfulFluid_tracedSVG
+          ...GatsbyContentfulFluid
         }
       }
       biography {
