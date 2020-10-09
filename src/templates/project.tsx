@@ -63,7 +63,7 @@ const ProjectTemplate: React.FC = (props) => {
       sm={photo.fullWidth ? 10 : 6}
       md={photo.fullWidth ? 7 : 5}
     >
-      <Img alt="" fluid={photo.image?.fluid as FluidObject} />
+      <Img alt={photo.name} fluid={photo.image?.fluid as FluidObject} />
       <Box className={classes.caption}>
         {photo.caption ? (
           <Box className={classes.captionContainer}>
@@ -147,6 +147,7 @@ export const pageQuery = graphql`
         }
         ... on ContentfulProjectPhoto {
           __typename
+          name
           image {
             fluid(maxWidth: 1180, background: "rgb:000000") {
               ...GatsbyContentfulFluid_tracedSVG

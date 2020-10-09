@@ -14,7 +14,10 @@ const ProjectPreview: React.FC<ProjectPreviewProps> = ({ project }) => {
       <Box p={2}>
         <Link to={`/spotlight/${project.slug}`}>
           <Paper elevation={5}>
-            <Img alt="" fluid={project?.preview?.fluid as FluidObject} />
+            <Img
+              alt={project?.title}
+              fluid={project?.preview?.fluid as FluidObject}
+            />
           </Paper>
         </Link>
       </Box>

@@ -36,7 +36,10 @@ const AboutIndex: React.FC = (props) => {
         <Grid container justify="center">
           <Grid item xs={12} sm={8} md={5}>
             <Box p={2}>
-              <Img alt="" fluid={layout?.profilePhoto?.fluid as FluidObject} />
+              <Img
+                alt={layout?.profilePhoto?.title}
+                fluid={layout?.profilePhoto?.fluid as FluidObject}
+              />
             </Box>
           </Grid>
 
@@ -63,6 +66,7 @@ export const pageQuery = graphql`
     contentfulAboutLayout(platform: { eq: "main" }) {
       statement
       profilePhoto {
+        title
         fluid(maxWidth: 350, resizingBehavior: SCALE) {
           ...GatsbyContentfulFluid_tracedSVG
         }
