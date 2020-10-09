@@ -26,6 +26,7 @@ module.exports = {
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
     'react/prop-types': 0,
+    'no-underscore-dangle': 0,
     'react/require-default-props': 0,
     'react/jsx-props-no-spreading': 0,
     'global-require': 0,
@@ -37,5 +38,6 @@ module.exports = {
     'no-unused-vars': 'off',
     'react/no-danger': 0,
     'import/prefer-default-export': 0,
+    'react/jsx-curly-newline': 0,
   },
 }

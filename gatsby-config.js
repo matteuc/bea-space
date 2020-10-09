@@ -34,6 +34,8 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp',
     `gatsby-plugin-typescript`,
+    'gatsby-plugin-fontawesome-css',
+    '@contentful/gatsby-transformer-contentful-richtext',
     {
       resolve: 'gatsby-source-contentful',
       options: contentfulConfig,
@@ -42,6 +44,15 @@ module.exports = {
       resolve: `gatsby-plugin-graphql-codegen`,
       options: {
         fileName: `types/graphql-types.d.ts`,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-material-ui',
+      // If you want to use styled components you should change the injection order.
+      options: {
+        // stylesProvider: {
+        //   injectFirst: true,
+        // },
       },
     },
   ],

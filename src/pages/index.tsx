@@ -1,41 +1,48 @@
 import * as React from 'react'
-import { graphql } from 'gatsby'
+import { graphql, PageProps } from 'gatsby'
 import get from 'lodash/get'
 import { Helmet } from 'react-helmet'
-import Hero from '../components/hero'
+import { Grid, Box } from '@material-ui/core'
 import Layout from '../components/layout'
-import ArticlePreview from '../components/article-preview'
+import ProjectPreview from '../components/project-preview'
 import { HomeQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
+import Statement from '../components/statement'
+import { LocationContext } from '../context/location'
 
-const RootIndex: React.FC = (props) => {
-  const site: HomeQueryQuery['site'] = get(props, 'data.site')
-  const posts: HomeQueryQuery['allContentfulBlogPost']['edges'] = get(
-    props,
-    'data.allContentfulBlogPost.edges'
+const RootIndex: React.FC<PageProps> = ({ data, location }) => {
+  const siteTitle: HomeQueryQuery['contentfulSiteMetadata'] = get(
+    data,
+    'contentfulSiteMetadata.headerPageTitle'
   )
-  const [author]: HomeQueryQuery['allContentfulPerson']['edges'] = get(
-    props,
-    'data.allContentfulPerson.edges'
+  const projects: HomeQueryQuery['allContentfulProject']['edges'] = get(
+    data,
+    'allContentfulProject.edges'
   )
+  const layout: HomeQueryQuery['contentfulLandingLayout'] = get(
+    data,
+    'contentfulLandingLayout'
+  )
+
   return (
-    <Layout>
-      <div style={{ background: '#fff' }}>
-        <Helmet title={site?.siteMetadata?.title as string} />
-        <Hero data={author.node} />
-        <div className="wrapper">
-          <h2 className="section-headline">Recent articles</h2>
-          <ul className="article-list">
-            {posts.map(({ node }) => {
+    <LocationContext.Provider value={{ path: location.pathname }}>
+      <Layout>
+        <Helmet
+          title={typeof siteTitle === 'string' ? siteTitle : 'My Portfolio'}
+        />
+        <Statement text={layout?.statement} />
+        <Box mt={2}>
+          <Grid container>
+            {projects.map(({ node }) => {
               return (
-                <li key={node.slug}>
-                  <ArticlePreview article={node} />
-                </li>
+                <Grid item xs={12} sm={6} key={node.slug}>
+                  <ProjectPreview project={node} />
+                </Grid>
               )
             })}
-          </ul>
-        </div>
-      </div>
-    </Layout>
+          </Grid>
+        </Box>
+      </Layout>
+    </LocationContext.Provider>
   )
 }
 
@@ -43,49 +50,20 @@ export default RootIndex
 
 export const pageQuery = graphql`
   query HomeQuery {
-    site {
-      siteMetadata {
-        title
-      }
+    contentfulSiteMetadata(platform: { eq: "main" }) {
+      headerPageTitle
     }
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+    contentfulLandingLayout(platform: { eq: "main" }) {
+      statement
+    }
+    allContentfulProject(filter: { node_locale: { eq: "en-US" } }) {
       edges {
         node {
           title
           slug
-          publishDate(formatString: "MMMM Do, YYYY")
-          tags
-          heroImage {
-            fluid(maxWidth: 350, maxHeight: 196, resizingBehavior: SCALE) {
-              ...GatsbyContentfulFluid_tracedSVG
-            }
-          }
-          description {
-            childMarkdownRemark {
-              html
-            }
-          }
-        }
-      }
-    }
-    allContentfulPerson(
-      filter: { contentful_id: { eq: "15jwOBqpxqSAOy2eOO4S0m" } }
-    ) {
-      edges {
-        node {
-          name
-          shortBio {
-            shortBio
-          }
-          title
-          heroImage: image {
-            fluid(
-              maxWidth: 1180
-              maxHeight: 480
-              resizingBehavior: PAD
-              background: "rgb:000000"
-            ) {
-              ...GatsbyContentfulFluid_tracedSVG
+          preview {
+            fluid(maxWidth: 350, maxHeight: 350, resizingBehavior: SCALE) {
+              ...GatsbyContentfulFluid
             }
           }
         }
