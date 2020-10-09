@@ -136,11 +136,6 @@ export const pageQuery = graphql`
     }
     contentfulProject(slug: { eq: $slug }) {
       title
-      preview {
-        fluid(maxWidth: 1180, background: "rgb:000000") {
-          ...GatsbyContentfulFluid_tracedSVG
-        }
-      }
       projectContent {
         ... on ContentfulProjectHighlight {
           __typename

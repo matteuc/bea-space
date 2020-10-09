@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Box, Hidden, IconButton, makeStyles } from '@material-ui/core'
-import { graphql, Link, StaticQuery } from 'gatsby'
+import { Link } from 'gatsby'
 import MenuIcon from '@material-ui/icons/Menu'
 
 const useStyles = makeStyles((theme) => ({
@@ -150,7 +150,11 @@ const MenuToggle: React.FC = () => {
   )
 }
 
-const Navigation: React.FC = () => {
+type NavigationProps = {
+  title: string
+}
+
+const Navigation: React.FC<NavigationProps> = ({ title }) => {
   const classes = useStyles()
 
   const styleActive = (path: string) => {
@@ -170,57 +174,41 @@ const Navigation: React.FC = () => {
   )
 
   return (
-    <StaticQuery
-      query={graphql`
-        query {
-          contentfulSiteMetadata(platform: { eq: "main" }) {
-            headerTitle
-          }
-        }
-      `}
-      render={(data) => {
-        return (
-          <>
-            <Hidden only={['xs', 'sm']}>
-              <nav role="navigation">
-                <ul className={classes.navigation}>
-                  <span className={classes.linkSection}>
-                    {sitePages
-                      .slice(0, Math.floor(sitePages.length / 2))
-                      .map((sitePage) => generateNavLink(sitePage))}
-                  </span>
-                  <h3 className={classes.siteTitle}>
-                    <Link to="/">
-                      {data.contentfulSiteMetadata.headerTitle}
-                    </Link>
-                  </h3>
-                  <span className={classes.linkSection}>
-                    {sitePages
-                      .slice(Math.floor(sitePages.length / 2), sitePages.length)
-                      .map((sitePage) => generateNavLink(sitePage))}
-                  </span>
-                </ul>
-              </nav>
-            </Hidden>
-            <Hidden only={['md', 'lg', 'xl']}>
-              <nav role="navigation">
-                <ul className={classes.navigationMobile}>
-                  <h3 className={classes.siteTitleMobile}>
-                    <Link to="/">
-                      {data.contentfulSiteMetadata.headerTitle}
-                    </Link>
-                  </h3>
+    <>
+      <Hidden only={['xs', 'sm']}>
+        <nav role="navigation">
+          <ul className={classes.navigation}>
+            <span className={classes.linkSection}>
+              {sitePages
+                .slice(0, Math.floor(sitePages.length / 2))
+                .map((sitePage) => generateNavLink(sitePage))}
+            </span>
+            <h3 className={classes.siteTitle}>
+              <Link to="/">{title}</Link>
+            </h3>
+            <span className={classes.linkSection}>
+              {sitePages
+                .slice(Math.floor(sitePages.length / 2), sitePages.length)
+                .map((sitePage) => generateNavLink(sitePage))}
+            </span>
+          </ul>
+        </nav>
+      </Hidden>
+      <Hidden only={['md', 'lg', 'xl']}>
+        <nav role="navigation">
+          <ul className={classes.navigationMobile}>
+            <h3 className={classes.siteTitleMobile}>
+              <Link to="/">{title}</Link>
+            </h3>
 
-                  <span className={classes.menuToggle}>
-                    <MenuToggle />
-                  </span>
-                </ul>
-              </nav>
-            </Hidden>
-          </>
-        )
-      }}
-    />
+            <span className={classes.menuToggle}>
+              <MenuToggle />
+            </span>
+          </ul>
+        </nav>
+      </Hidden>
+    </>
   )
 }
+
 export default Navigation

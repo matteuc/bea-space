@@ -1,6 +1,13 @@
 import * as React from 'react'
-import { Container, ThemeProvider, Box } from '@material-ui/core'
+import {
+  Container,
+  ThemeProvider,
+  Box,
+  createMuiTheme,
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import { graphql, StaticQuery } from 'gatsby'
+import { Helmet } from 'react-helmet'
 import 'fontsource-nunito'
 import Navigation from './navigation'
 import theme from '../theme'
@@ -32,16 +39,81 @@ const Template: React.FC = ({ children }) => {
   return (
     <>
       <base target="_blank" />
-      <ThemeProvider theme={theme}>
-        <Container disableGutters className={classes.root} maxWidth={false}>
-          <Container disableGutters className={classes.root} maxWidth="md">
-            <Box className={classes.main}>
-              <Navigation />
-              {children}
-            </Box>
-          </Container>
-        </Container>
-      </ThemeProvider>
+      <StaticQuery
+        query={graphql`
+          query {
+            contentfulSiteMetadata(platform: { eq: "main" }) {
+              headerTitle
+              appIcon {
+                fixed(width: 100, height: 100) {
+                  ...GatsbyContentfulFixed_tracedSVG
+                }
+              }
+            }
+            contentfulSiteTheme(platform: { eq: "main" }) {
+              primary
+              secondary
+              background
+            }
+          }
+        `}
+        render={(data) => {
+          const appTheme = createMuiTheme({
+            palette: {
+              primary: {
+                main: data.contentfulSiteTheme.primary,
+              },
+              secondary: {
+                main: data.contentfulSiteTheme.secondary,
+              },
+              text: {
+                primary: '#222222',
+              },
+              grey: {
+                '300': '#b7b7ae',
+              },
+              background: {
+                default: data.contentfulSiteTheme.background,
+              },
+            },
+            typography: {
+              fontFamily: 'nunito',
+            },
+          })
+
+          return (
+            <ThemeProvider theme={appTheme}>
+              <Helmet
+                link={[
+                  {
+                    rel: 'icon',
+                    type: 'image/png',
+                    href: data.contentfulSiteMetadata.appIcon.fixed.src,
+                  },
+                ]}
+              />
+              <Container
+                disableGutters
+                className={classes.root}
+                maxWidth={false}
+              >
+                <Container
+                  disableGutters
+                  className={classes.root}
+                  maxWidth="md"
+                >
+                  <Box className={classes.main}>
+                    <Navigation
+                      title={data.contentfulSiteMetadata.headerTitle}
+                    />
+                    {children}
+                  </Box>
+                </Container>
+              </Container>
+            </ThemeProvider>
+          )
+        }}
+      />
     </>
   )
 }
