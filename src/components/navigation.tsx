@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Box, Hidden, IconButton, makeStyles } from '@material-ui/core'
 import { Link } from 'gatsby'
 import MenuIcon from '@material-ui/icons/Menu'
+import { useLocation } from '../context/location'
 
 const useStyles = makeStyles((theme) => ({
   navigation: {
@@ -115,8 +116,10 @@ const MenuToggle: React.FC = () => {
 
   const classes = useStyles()
 
+  const { path: windowPath } = useLocation()
+
   const styleActive = (path: string) => {
-    let matchPath = window.location.pathname
+    let matchPath = windowPath
 
     if (matchPath.startsWith('/spotlight')) matchPath = '/'
 
@@ -156,9 +159,10 @@ type NavigationProps = {
 
 const Navigation: React.FC<NavigationProps> = ({ title }) => {
   const classes = useStyles()
+  const { path: windowPath } = useLocation()
 
   const styleActive = (path: string) => {
-    let matchPath = window.location.pathname
+    let matchPath = windowPath
 
     if (matchPath.startsWith('/spotlight')) matchPath = '/'
 

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { graphql } from 'gatsby'
+import { graphql, PageProps } from 'gatsby'
 import get from 'lodash/get'
 import { Helmet } from 'react-helmet'
 import { Box, Grid, makeStyles } from '@material-ui/core'
@@ -8,6 +8,7 @@ import Layout from '../components/layout'
 import { AboutIndexQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 import Statement from '../components/statement'
 import RawHtml from '../components/raw-html'
+import { LocationContext } from '../context/location'
 
 const useStyles = makeStyles((theme) => ({
   biography: {
@@ -17,42 +18,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const AboutIndex: React.FC = (props) => {
+const AboutIndex: React.FC<PageProps> = ({ data, location }) => {
   const siteTitle: AboutIndexQueryQuery['contentfulSiteMetadata'] = get(
-    props,
-    'data.contentfulSiteMetadata.headerPageTitle'
+    data,
+    'contentfulSiteMetadata.headerPageTitle'
   )
   const layout: AboutIndexQueryQuery['contentfulAboutLayout'] = get(
-    props,
-    'data.contentfulAboutLayout'
+    data,
+    'contentfulAboutLayout'
   )
 
   const classes = useStyles()
   return (
-    <Layout>
-      <Helmet title={`About — ${siteTitle}`} />
-      <Statement text={layout?.statement} />
-      <Box mt={2}>
-        <Grid container justify="center">
-          <Grid item xs={12} sm={8} md={5}>
-            <Box p={2}>
-              <Img
-                alt={layout?.profilePhoto?.title}
-                fluid={layout?.profilePhoto?.fluid as FluidObject}
-              />
-            </Box>
-          </Grid>
+    <LocationContext.Provider value={{ path: location.pathname }}>
+      <Layout>
+        <Helmet title={`About — ${siteTitle}`} />
+        <Statement text={layout?.statement} />
+        <Box mt={2}>
+          <Grid container justify="center">
+            <Grid item xs={12} sm={8} md={5}>
+              <Box p={2}>
+                <Img
+                  alt={layout?.profilePhoto?.title}
+                  fluid={layout?.profilePhoto?.fluid as FluidObject}
+                />
+              </Box>
+            </Grid>
 
-          <Grid item md={7}>
-            <Box p={2} className={classes.biography}>
-              <RawHtml
-                html={layout?.biography?.childMarkdownRemark?.html || ''}
-              />
-            </Box>
+            <Grid item md={7}>
+              <Box p={2} className={classes.biography}>
+                <RawHtml
+                  html={layout?.biography?.childMarkdownRemark?.html || ''}
+                />
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Layout>
+        </Box>
+      </Layout>
+    </LocationContext.Provider>
   )
 }
 

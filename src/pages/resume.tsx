@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { graphql } from 'gatsby'
+import { graphql, PageProps } from 'gatsby'
 import get from 'lodash/get'
 import { Helmet } from 'react-helmet'
 import { Box, Divider, Grid, makeStyles, Typography } from '@material-ui/core'
 import Layout from '../components/layout'
 import { ResumeIndexQueryQuery } from '../../types/graphql-types' // eslint-disable-line import/no-unresolved
 import Statement from '../components/statement'
+import { LocationContext } from '../context/location'
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -36,112 +37,114 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ResumeIndex: React.FC = (props) => {
+const ResumeIndex: React.FC<PageProps> = ({ data, location }) => {
   const siteTitle: ResumeIndexQueryQuery['contentfulSiteMetadata'] = get(
-    props,
-    'data.contentfulSiteMetadata.headerPageTitle'
+    data,
+    'contentfulSiteMetadata.headerPageTitle'
   )
 
   const layout: ResumeIndexQueryQuery['contentfulResumeLayout'] = get(
-    props,
-    'data.contentfulResumeLayout'
+    data,
+    'contentfulResumeLayout'
   )
 
   const classes = useStyles()
 
   return (
-    <Layout>
-      <Helmet
-        title={`Resume — ${
-          typeof siteTitle === 'string' ? siteTitle : 'My Portfolio'
-        }`}
-      />
-      <Statement text={layout?.statement} />
-      <Box mt={5}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            {layout?.resume?.file?.url ? (
-              <a href={layout.resume.file.url} download target="__blank">
-                <Typography align="left" variant="h5" color="primary">
-                  Click here to download my resume!
+    <LocationContext.Provider value={{ path: location.pathname }}>
+      <Layout>
+        <Helmet
+          title={`Resume — ${
+            typeof siteTitle === 'string' ? siteTitle : 'My Portfolio'
+          }`}
+        />
+        <Statement text={layout?.statement} />
+        <Box mt={5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              {layout?.resume?.file?.url ? (
+                <a href={layout.resume.file.url} download target="__blank">
+                  <Typography align="left" variant="h5" color="primary">
+                    Click here to download my resume!
+                  </Typography>
+                </a>
+              ) : (
+                ''
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <Box fontStyle="italic">
+                <Typography align="left" variant="h5">
+                  Professional Experience.
                 </Typography>
-              </a>
-            ) : (
-              ''
-            )}
-          </Grid>
-          <Grid item xs={12}>
-            <Box fontStyle="italic">
-              <Typography align="left" variant="h5">
-                Professional Experience.
-              </Typography>
-            </Box>
-          </Grid>
+              </Box>
+            </Grid>
 
-          {layout?.experiences?.map(
-            ({
-              companyName,
-              startDate,
-              endDate,
-              positionTitle,
-              experienceDetails,
-            }) => (
-              <React.Fragment key={`${companyName}-${positionTitle}`}>
-                <Grid item xs={12} sm={6}>
-                  <Box>
+            {layout?.experiences?.map(
+              ({
+                companyName,
+                startDate,
+                endDate,
+                positionTitle,
+                experienceDetails,
+              }) => (
+                <React.Fragment key={`${companyName}-${positionTitle}`}>
+                  <Grid item xs={12} sm={6}>
+                    <Box>
+                      <Typography
+                        align="left"
+                        variant="h4"
+                        className={classes.heading}
+                      >
+                        {companyName}
+                      </Typography>
+                    </Box>
                     <Typography
                       align="left"
-                      variant="h4"
+                      variant="subtitle1"
+                      className={classes.subtitle}
+                    >
+                      {startDate} — {endDate}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography
+                      align="left"
+                      variant="h5"
                       className={classes.heading}
                     >
-                      {companyName}
+                      {positionTitle}
                     </Typography>
-                  </Box>
-                  <Typography
-                    align="left"
-                    variant="subtitle1"
-                    className={classes.subtitle}
-                  >
-                    {startDate} — {endDate}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography
-                    align="left"
-                    variant="h5"
-                    className={classes.heading}
-                  >
-                    {positionTitle}
-                  </Typography>
-                  <Box mt={1}>
-                    <ul className={classes.experienceDetails}>
-                      {experienceDetails.map((detail) => (
-                        <li key={detail}>{detail}</li>
-                      ))}
-                    </ul>
-                  </Box>
-                </Grid>
+                    <Box mt={1}>
+                      <ul className={classes.experienceDetails}>
+                        {experienceDetails.map((detail) => (
+                          <li key={detail}>{detail}</li>
+                        ))}
+                      </ul>
+                    </Box>
+                  </Grid>
 
-                <Divider className={classes.divider} />
-              </React.Fragment>
-            )
-          )}
+                  <Divider className={classes.divider} />
+                </React.Fragment>
+              )
+            )}
 
-          <Grid item xs={12}>
-            <Box fontStyle="italic">
-              <Typography align="left" variant="h5">
-                Technical Skills.
-              </Typography>
-            </Box>
-            <Box mt={2}>
-              <Typography color="textSecondary" align="left">
-                {layout?.skills?.join(', ')}
-              </Typography>
-            </Box>
+            <Grid item xs={12}>
+              <Box fontStyle="italic">
+                <Typography align="left" variant="h5">
+                  Technical Skills.
+                </Typography>
+              </Box>
+              <Box mt={2}>
+                <Typography color="textSecondary" align="left">
+                  {layout?.skills?.join(', ')}
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Layout>
+        </Box>
+      </Layout>
+    </LocationContext.Provider>
   )
 }
 
