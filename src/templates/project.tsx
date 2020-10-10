@@ -92,7 +92,7 @@ const ProjectTemplate: React.FC = (props) => {
   return (
     <Layout>
       <Box>
-        <Helmet title={`${project.title} | ${siteTitle}`} />
+        <Helmet title={`${project?.title} | ${siteTitle}`} />
         <Box mt={5} mb={5}>
           <Typography className={classes.title} align="center" variant="h4">
             {project?.title}

@@ -38,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^2.3.3",
     "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
@@ -75,7 +76,8 @@
     "build": "gatsby build",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public",
     "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix *.js bin/*.js",
-    "start": "npm run develop",
+    "start": "yarn run develop -o",
+    "start:preview": "cross-env CONTENTFUL_PREVIEW_ENABLED=true ENABLE_GATSBY_REFRESH_ENDPOINT=true yarn start",
     "heroku-postbuild": "gatsby build"
   }
 }
